@@ -23,7 +23,7 @@ def calculate(num1, num2, op):
         return num1 * num2
     elif op == '/':
         if num2 == 0:
-            return None  # We'll handle this outside
+            return None  
         return num1 / num2
 
 def main():
@@ -36,11 +36,10 @@ def main():
             print("Division by zero isn’t allowed. Let's start over.\n")
             continue
 
-        # Display result
+    
         print(f"\n {a} {operator} {b} = {result}\n")
         print("THE OUTPUT = ",result)
 
-        # Ask to continue
         again = input("Do you want to calculate again? (yes/no): ").strip().lower()
         if again not in ('yes', 'y'):
             print("Thanks for using the calculator.")
