@@ -1,60 +1,60 @@
-import random  
+import tkinter as tk
+import random
+choices = ["Rock", "Paper", "Scissors"]
+user_score = 0
+computer_score = 0
 
-def get_user_choice():
-    choice = input("Enter your choice (rock, paper, or scissors): ").lower()
-    while choice not in ['rock', 'paper', 'scissors']:
-        choice = input("Invalid input. Please enter rock, paper, or scissors: ").lower()
-    return choice
-
-def get_computer_choice():
-    return random.choice(['rock', 'paper', 'scissors'])
-
-def determine_winner(user, computer):
-    if user == computer:
-        return "tie"
-    elif (user == 'rock' and computer == 'scissors') or \
-         (user == 'scissors' and computer == 'paper') or \
-         (user == 'paper' and computer == 'rock'):
-        return "user"
+def play(user_choice):
+    global user_score, computer_score
+    computer_choice = random.choice(choices)
+    
+    if user_choice == computer_choice:
+        result = "It's a Tie!"
+    elif (user_choice == "Rock" and computer_choice == "Scissors") or \
+         (user_choice == "Paper" and computer_choice == "Rock") or \
+         (user_choice == "Scissors" and computer_choice == "Paper"):
+        result = "You Win!"
+        user_score += 1
     else:
-        return "computer"  
+        result = "You Lose!"
+        computer_score += 1
+    user_choice_label.config(text=f"You chose: {user_choice}")
+    computer_choice_label.config(text=f"Computer chose: {computer_choice}")
+    result_label.config(text=result)
+    score_label.config(text=f"Score: You {user_score} - {computer_score} Computer")
+def reset_game():
+    global user_score, computer_score
+    user_score = 0
+    computer_score = 0
+    user_choice_label.config(text="You chose: ")
+    computer_choice_label.config(text="Computer chose: ")
+    result_label.config(text="")
+    score_label.config(text="Score: You 0 - 0 Computer")
+root = tk.Tk()
+root.title("Rock-Paper-Scissors Game")
+root.geometry("400x400")
 
-def play_game():
-    user_score = 0         
-    computer_score = 0    
-    round_num = 1         
+tk.Label(root, text="Rock-Paper-Scissors", font=("Helvetica", 18, "bold")).pack(pady=10)
+tk.Label(root, text="Choose your move:", font=("Helvetica", 12)).pack()
 
-    print("Welcome to Rock, Paper, Scissors!")
+button_frame = tk.Frame(root)
+button_frame.pack(pady=10)
 
-    while True:
-        print(f"\nRound {round_num}")  
+for choice in choices:
+    tk.Button(button_frame, text=choice, width=10, command=lambda c=choice: play(c)).pack(side=tk.LEFT, padx=5)
 
-        user_choice = get_user_choice()        
-        computer_choice = get_computer_choice() 
+user_choice_label = tk.Label(root, text="You chose: ", font=("Helvetica", 12))
+user_choice_label.pack(pady=5)
 
-        print(f"You chose: {user_choice}")
-        print(f"Computer chose: {computer_choice}")
+computer_choice_label = tk.Label(root, text="Computer chose: ", font=("Helvetica", 12))
+computer_choice_label.pack(pady=5)
 
-        winner = determine_winner(user_choice, computer_choice)  # Decide who won
+result_label = tk.Label(root, text="", font=("Helvetica", 14, "bold"))
+result_label.pack(pady=10)
 
-        if winner == "tie":
-            print("It's a tie!")
-        elif winner == "user":
-            print("You win this round!")
-            user_score += 1
-        else:
-            print("Computer wins this round!")
-            computer_score += 1
+score_label = tk.Label(root, text="Score: You 0 - 0 Computer", font=("Helvetica", 12))
+score_label.pack(pady=10)
 
-        print(f"Score :- You: {user_score} | Computer: {computer_score}")
+tk.Button(root, text="Reset Game", command=reset_game).pack(pady=10)
 
-        # Ask if the player wants to continue
-        play_again = input("\nDo you want to play another round? (yes/no): ").lower()
-        if play_again not in ['yes', 'y']:
-            break  
-        round_num += 1  
-    print("\nThanks for playing!")
-    print(f"Final Score :- You: {user_score} | Computer: {computer_score}")
-
-if __name__ == "__main__":
-    play_game()  
+root.mainloop() 
