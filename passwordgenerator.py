@@ -18,12 +18,9 @@ def ask_length():
 def generate_password(length):
     letters = string.ascii_letters
     digits = string.digits
-    symbols = "!@#$%^&*()-_=+[]{};:,.<>?"  # safe punctuation
-
-    # Combine and remove confusing characters (like l, 1, O, 0)
+    symbols = "!@#$%^&*()-_=+[]{};:,.<>?"  
     all_chars = ''.join(c for c in letters + digits + symbols if c not in 'l1O0')
 
-    # Generate password
     return ''.join(secrets.choice(all_chars) for _ in range(length))
 
 def main():
